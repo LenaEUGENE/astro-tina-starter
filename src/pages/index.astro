@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Icon } from 'astro-icon';
+
+// import components
+import { Image} from "@astrojs/image/components";
+import Link from '@components/Link.astro';
+import Button from '@components/Button.astro';
+
+//import medias
+
+import life_on_mars from "@images/life_on_mars.jpg";
+
+//import collections
+import { getCollection } from 'astro:content';
+
+// Fetching collection packages
+const packages = await getCollection("packages");
+
+
+
+
+---
+
+<BaseLayout title="To infinity and beyond">
+	<main role="main" class="">
+		<!-- hero section -->
+		<section
+			aria-labelledby="herosection-title"
+			class="mx-auto bg-transparent px-6 sm:px-8 md:px-12 lg:px-16 2xl:px-24 pt-0 pb-14 md:py-14 lg:py-24"
+		>
+			<div class="container mx-auto">
+				<div 
+					class="Hero--wrapper h-full grid gap-6 md:grid-cols-2"
+				>
+					<article class="title">
+						<p class="text-orange-800">Your space travel  agency</p>
+						<h1 id="herosection-title" class="grid text-5xl md:text-6xl lg:text-7xl 2xl:text-8xl tracking-wide mt-2 mb-4 2xl:mb-12 text-orange-500 font-bold">To infinity and beyond</h1>
+					</article>
+
+					<div class="relative img-wrapper overflow-hidden rounded-xl md:col-start-2 md:row-start-1 md:row-span-3">
+						<Image
+							src={life_on_mars}
+							alt="Outside the spaceship after landing"
+							class="hero-image h-full w-full object-cover aspect-[3/2]"
+							format= "webp"
+						/>
+					</div>
+				
+					<p class="text-lg md:text-xl font-medium md:col-start-1 md:col-span-1 md:row-start-2 ">
+						Poke woke pinterest, cliche pork belly yuccie etsy vice DIY vibecession church-key. Kogi gorpcore meggings, schlitz cliche af glossier. 
+					</p>
+					<div class="CTA space-y-5 lg:space-x-8">
+						<Button
+							href="#"
+							text="ready to go!"
+							icon={{
+								side:"right",
+								name:"ph:arrow-circle-right-duotone",
+							}}
+							classes={"primary"}
+						/>
+						<Link
+							href="#"
+							text="I need more info"
+							icon={{
+								side:"right",
+								name:"ph:rocket-duotone",
+							}}
+							classes={"ghost"}
+						/>
+					</div>
+				</div>
+				
+			</div>
+		</section>
+
+		<!-- packages gallery -->
+		<section
+			aria-labelledby="packages-section-preview-title"
+			class="mx-auto bg-transparent px-6 sm:px-8 md:px-12 lg:px-16 2xl:px-24 pt-0 pb-14 md:py-14 lg:py-24"
+		>
+			<div class="container mx-auto space-y-24">
+				<article class="title">
+					<p class="text-orange-800">One week on Mars, One year on Titan?</p>
+					<h2 id="packages-section-preview-title" class="grid text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl tracking-wide mt-2 mb-4 2xl:mb-12 text-orange-500 font-bold">Choose your own adventure</h2>
+				</article>
+				<ul
+          class="mx-auto grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 md:gap-8  "
+        >
+				{
+					packages.map( (packages) => 
+					
+					<li>
+					<article class="relative flex flex-col packageCard border border-orange-500 w-full md:max-w-xs lg:max-w-sm h-[35rem] bg-white rounded-lg shadow-md">
+						<div class="imageWrapper relative max-h-72 flex-1">
+							<img
+							src={packages.data.img}
+							alt={packages.data.img_alt}
+							class="w-full h-full object-cover object-center aspect-[3/2] rounded-t-lg"
+							/>
+							<div class="absolute inset-0 h-full overlay bg-black/20"></div>
+							<div class="descriptionWrapper absolute bottom-0 p-6">
+								<p class="text-lg font-medium text-white">Starting at <span class="text-xl font-bold ">{packages.data.price}</span></p>
+								<p class="text-lg text-white font-medium">{packages.data.description}</p>		
+							</div>
+						</div>
+						<div class="contentWrapper w-full max-w-sm p-6 justify-between items-start">
+							<div class="content">
+								<div class="details">
+									{packages.data.popular && (
+										<span class="bg-orange-400 absolute top-0 right-0 -translate-y-1/2 rounded-full px-3 py-1 text-sm font-medium text-white shadow-md">
+											popular
+										</span>
+									)}
+									
+									<h4 class="capitalize text-xl font-semibold tracking-tight">{packages.data.title}</h4>
+									<p class="text-lg">type: <span class="font-medium italic">{packages.data.type}</span></p>
+									<p class="text-lg">duration: {packages.data.duration}</p>
+									<p class="text-lg">category: {packages.data.category}</p>
+									<p class="text-lg">character: <span class="font-medium text-orange-400">{packages.data.character}</span></p>
+								</div>
+								<div class="CTA inline-flex space-x-4 mt-6">
+									<Button
+										href="#"
+										text="ready to go!"
+										icon={{
+											side:"right",
+											name:"ph:arrow-circle-right-duotone",
+										}}
+										classes={"primary-md"}
+									/>
+									<Link
+										href="#"
+										text="more info"
+										icon={{
+											side:"right",
+											name:"ph:rocket-duotone",
+										}}
+										classes={"ghost link-md"}
+									/>
+								</div>
+							</div>
+						</div>
+					</article>
+				</li>
+
+					)
+				}
+
+        </ul>
+			</div>
+		</section>
+		
+	</main>
+</BaseLayout>
